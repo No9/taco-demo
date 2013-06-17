@@ -2,7 +2,7 @@ div, span, p, td {
 	font-family: Arial, sans-serif;
 }
 #content {
-	width: 1200px;
+	/* width: 1200px; */
 }
 #chart {
 	display: inline-block;
