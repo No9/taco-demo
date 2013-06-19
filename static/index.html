@@ -1,17 +1,18 @@
 <!doctype>
 <head>
   <link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css">
+  <link type="text/css" rel="stylesheet" href="css/bootstrap.css">
   <link type="text/css" rel="stylesheet" href="css/graph.css">
   <link type="text/css" rel="stylesheet" href="css/detail.css">
   <link type="text/css" rel="stylesheet" href="css/legend.css">
   <link type="text/css" rel="stylesheet" href="css/extensions.css">
 
   <script src="http://code.shutterstock.com/rickshaw/vendor/d3.v2.js"></script>
-<!-- -->
-  Removed due to tacodb encoding issue. 
-  To reproduce Issue 1 on tacodb replace the line above with :   
+<!--
+  Removed due to tacodb encoding issue.
+  To reproduce Issue 1 on tacodb replace the line above with :
   <script src="vendor/d3.v2.js"></script>
-<!-- -->
+-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js"></script>
 
@@ -45,71 +46,99 @@
 </head>
 <body>
 
-<div id="content">
+  <div id="content" class="container">
 
-  <form id="side_panel">
-    <h1>D-Trace Viewer</h1>
-    <section><div id="legend"></div></section>
-    <section>
-      <div id="renderer_form" class="toggler">
-        <input type="radio" name="renderer" id="area" value="area" checked>
-        <label for="area">area</label>
-        <input type="radio" name="renderer" id="bar" value="bar">
-        <label for="bar">bar</label>
-        <input type="radio" name="renderer" id="line" value="line">
-        <label for="line">line</label>
-        <input type="radio" name="renderer" id="scatter" value="scatterplot">
-        <label for="scatter">scatter</label>
-      </div>
-    </section>
-    <section>
-      <div id="offset_form">
-        <label for="stack">
-          <input type="radio" name="offset" id="stack" value="zero" checked>
-          <span>stack</span>
-        </label>
-        <label for="stream">
-          <input type="radio" name="offset" id="stream" value="wiggle">
-          <span>stream</span>
-        </label>
-        <label for="pct">
-          <input type="radio" name="offset" id="pct" value="expand">
-          <span>pct</span>
-        </label>
-        <label for="value">
-          <input type="radio" name="offset" id="value" value="value">
-          <span>value</span>
-        </label>
-      </div>
-      <div id="interpolation_form">
-        <label for="cardinal">
-          <input type="radio" name="interpolation" id="cardinal" value="cardinal" checked>
-          <span>cardinal</span>
-        </label>
-        <label for="linear">
-          <input type="radio" name="interpolation" id="linear" value="linear">
-          <span>linear</span>
-        </label>
-        <label for="step">
-          <input type="radio" name="interpolation" id="step" value="step-after">
-          <span>step</span>
-        </label>
-      </div>
-    </section>
-    <section>
-      <h6>Smoothing</h6>
-      <div id="smoother"></div>
-    </section>
-    <section></section>
-  </form>
+    <br>
 
-  <div id="chart_container">
-    <div id="chart"></div>
-    <div id="timeline"></div>
-    <div id="slider"></div>
+  <div class="navbar">
+    <div class="navbar-inner">
+      <a class="brand" href="#">D-Trace Viewer</a>
+    </div>
   </div>
 
-</div>
+    <div class="row">
+
+      <div class="span4">
+
+        <form id="side_panel">
+
+          <section><div id="legend"></div></section>
+
+          <section>
+            <div id="renderer_form" class="toggler">
+              <input type="radio" name="renderer" id="area" value="area" checked>
+              <label for="area">area</label>
+              <input type="radio" name="renderer" id="bar" value="bar">
+              <label for="bar">bar</label>
+              <input type="radio" name="renderer" id="line" value="line">
+              <label for="line">line</label>
+              <input type="radio" name="renderer" id="scatter" value="scatterplot">
+              <label for="scatter">scatter</label>
+            </div>
+          </section>
+
+          <section>
+
+            <div id="offset_form">
+              <label for="stack">
+                <input type="radio" name="offset" id="stack" value="zero" checked>
+                <span>stack</span>
+              </label>
+              <label for="stream">
+                <input type="radio" name="offset" id="stream" value="wiggle">
+                <span>stream</span>
+              </label>
+              <label for="pct">
+                <input type="radio" name="offset" id="pct" value="expand">
+                <span>pct</span>
+              </label>
+              <label for="value">
+                <input type="radio" name="offset" id="value" value="value">
+                <span>value</span>
+              </label>
+            </div>
+
+            <div id="interpolation_form">
+              <label for="cardinal">
+                <input type="radio" name="interpolation" id="cardinal" value="cardinal" checked>
+                <span>cardinal</span>
+              </label>
+              <label for="linear">
+                <input type="radio" name="interpolation" id="linear" value="linear">
+                <span>linear</span>
+              </label>
+              <label for="step">
+                <input type="radio" name="interpolation" id="step" value="step-after">
+                <span>step</span>
+              </label>
+            </div>
+
+          </section>
+
+          <section>
+            <h6>Smoothing</h6>
+            <div id="smoother"></div>
+          </section>
+
+          <section></section>
+
+        </form>
+
+      </div> <!-- span4 -->
+
+      <div class="span8">
+
+        <div id="chart_container">
+          <div id="chart"></div>
+          <div id="timeline"></div>
+          <div id="slider"></div>
+        </div>
+
+      </div> <!-- span8 -->
+
+    </div> <!-- row -->
+
+  </div> <!-- container -->
 
 <script>
 
@@ -124,7 +153,7 @@ function processData(message){
   var formatDate = d3.time.format.iso;
     var d3Date = formatDate.parse(new Date(message.data.x)).getTime();
     message.data.x = d3Date;*/
-  var d3Date = Math.round(new Date(message.data.x).getTime() / 1000)   
+  var d3Date = Math.round(new Date(message.data.x).getTime() / 1000)
   message.data.x = d3Date;
   if(graph === undefined){
     createGraph(message)
@@ -132,14 +161,14 @@ function processData(message){
   }else{
 
     if(seriesNames.indexOf(message.name) == -1){
-       
+
        // Create an array of equal Time values but set to 0;
        var tmpArr = [];
        for(var i = 0; i < seriesData[0].length; i++){
-           var tmpObj = {}; 
-           tmpObj.x = seriesData[0][i].x;
-           tmpObj.y = 0;
-           tmpArr.push(tmpObj); 
+          var tmpObj = {};
+          tmpObj.x = seriesData[0][i].x;
+          tmpObj.y = 0;
+          tmpArr.push(tmpObj);
        }
        //Add the values to the holding array store
        seriesData.push(tmpArr);
@@ -174,7 +203,7 @@ function processData(message){
         legend: legend
       } );
 
-    }  
+    }
     seriesData[seriesNames.indexOf(message.name)].push(message.data)
     if(message.data.x > 30)
      // annotator.add(seriesData[0][seriesData[0].length-1].x, "Request Count > 30");
@@ -195,15 +224,15 @@ var order;
 
 function createGraph(seriesToAdd){
 
-  seriesData[0] = [seriesToAdd.data]  
+  seriesData[0] = [seriesToAdd.data]
   seriesToAdd.color = palette.color();
 // instantiate our graph!
 
 
 graph = new Rickshaw.Graph( {
   element: document.getElementById("chart"),
-  width: 900,
-  height: 500,
+  width: 600,
+  height: 400,
   renderer: 'area',
   stroke: true,
   preserve: true,
@@ -309,7 +338,7 @@ function addAnnotation(force) {
 setTimeout( function() { setInterval( addAnnotation, 6000 ) }, 6000 );
 */
 </script>
-<h6>Connection Status</h6>
+<!-- <h6>Connection Status</h6> -->
 </body>
 
 <script src=./bundle.js></script>
